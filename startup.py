@@ -19,8 +19,9 @@ def homepage():
 
 @app.route('/ner/labels')
 def ner_labels():
-    text_entities = app.config["FILE_ENTITIES"]
-    return render_template('labels.html', text=text_entities)
+    text_data = app.config["TEXT_DATA"]
+    entities = [{"content":text, "entities":[]} for text in text_data]
+    return render_template('labels.html', entities=entities)
 
 @app.route('/ner/tagger/<id>')
 def ner_annotator(id):
@@ -41,8 +42,7 @@ if __name__ == "__main__":
         app.config["IMAGES"] = directory
     elif args.file is not None:
         with open(args.file,'r') as file_data:
-            text_entities = [{"content":re.sub("\n","",row),"entities":[]} for row in file_data]
-        app.config["FILE_ENTITIES"] = text_entities
+            app.config["TEXT_DATA"] = [re.sub("\n","",row) for row in file_data]
     else:
         logger.debug("no file or directory provided")
 

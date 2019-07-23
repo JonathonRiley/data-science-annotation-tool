@@ -3,7 +3,7 @@ var text_entities = {};
 var textString;
 
 function initialise(){
-    text_entities = sessionStorage
+    text_entities = sessionStorage.getItem("text")
     var labelsString ='';
     var i;
     var labelCount;

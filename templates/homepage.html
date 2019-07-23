@@ -42,7 +42,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
         </div>
         <div class="w3-half">
             <img src="static/ner.jpg" alt="NER" style="height:175pt" onclick="window.location.replace('/ner/labels')">
-            <h3><a class='btn btn-link' href='/ner/labels'>Named Entity Recognition</a></h3>
+            <h3><a class='btn btn-link' href="/ner/labels">Named Entity Recognition</a></h3>
             <p>Label text for custom named entity data.</p>
         </div>
     </div>
@@ -73,13 +73,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     <div class="w3-container w3-padding-16 w3-center">
         <h3>About the Tool and its Creator</h3><br>
         <img src="static/me3.jpg" alt="creator" style="height:150pt">
-        </p>Produced by Jonathon Riley, PhD. Data scientist, with experience in recommendation systems and NLP,
+        <p>Produced by Jonathon Riley, PhD. Data scientist, with experience in recommendation systems and NLP,
             currently employed at <a href="https://www.depop.com" target="_blank">Depop</a>. </p>
-        </p>This is a <a href="https://github.com/JonathonRiley/data-science-annotation-tool" target="_blank">free tool</a> designed for data scientists, by a data scientist.
+        <p>This is a <a href="https://github.com/JonathonRiley/data-science-annotation-tool" target="_blank">free tool</a> designed for data scientists, by a data scientist.
             After struggling to find a unified tool for labelling and annotating datasets for machine learning tasks
             and only finding different tools for each new task (unless I wanted to pay AWS), I decided to build my own.
             Happy annotating/labelling.</p>
-        </p>Comments always welcome, especially regarding bugs!</p>
+        <p>Comments always welcome, especially regarding bugs!</p>
         </div>
     </div>
     <hr>
@@ -112,18 +112,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     </footer>
 
     <!-- End page content -->
-</div>
 
-<script>
-// Script to open and close sidebar
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-}
-
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-}
-</script>
+<script src="/static/js/homepage.js"></script>
 
 </body>
 </html>

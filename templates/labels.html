@@ -26,6 +26,7 @@ ul li {
   padding: 12px 8px 12px 40px;
   list-style-type: none;
   font-size: 18px;
+  width : 20%;
   transition: 0.2s;
 
   /* make the list items unselectable */
@@ -39,7 +40,7 @@ ul li {
 /* Style the close button */
 .close {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
   padding: 12px 16px 12px 16px;
 }
@@ -113,19 +114,18 @@ input {
 
 </style>
 </head>
-<body onload="initialise()">
+<body onload="sessionStorage.setItem('textEntities',JSON.stringify({{entities}}))">
 
 <div id="myDIV" class="header">
     <h2 style="margin:5px">Choose Your Labels</h2>
     <input type="text" id="myInput" placeholder="Entity...">
     <span onclick="newElement()" class="addBtn">Add</span>
-    <span onclick="window.location.replace('/ner/tagger/'+labels_and_colors)" class="finishBtn">Finish</span>
+    <span onclick="window.location.replace(goToTagger())" class="finishBtn">Finish</span>
 </div>
-
-<span onclick="test()" class="addBtn">Test</span>
-<ul id="myUL">
-    <p id="test"></p>
-</ul>
+<div class="col-md-5">
+    <ul id="myUL">
+    </ul>
+</div>
 
 <script src="/static/js/labels.js"> </script>
 
