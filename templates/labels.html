@@ -114,19 +114,20 @@ input {
 
 </style>
 </head>
-<body onload="sessionStorage.setItem('textEntities',JSON.stringify({{entities}}))">
+<body onload="initialise({{entities}});">
 
 <div id="myDIV" class="header">
     <h2 style="margin:5px">Choose Your Labels</h2>
     <input type="text" id="myInput" placeholder="Entity...">
-    <span onclick="newElement()" class="addBtn">Add</span>
-    <span onclick="window.location.replace(goToTagger())" class="finishBtn">Finish</span>
+    <span onclick="newElement('',0)" class="addBtn">Add</span>
+    <span onclick="window.location.replace(goToTagger(sessionStorage.getItem('id')))" class="finishBtn">Finish</span>
 </div>
 <div class="col-md-5">
     <ul id="myUL">
     </ul>
 </div>
 
+<p id="test"></p>
 <script src="/static/js/labels.js"> </script>
 
 </body>

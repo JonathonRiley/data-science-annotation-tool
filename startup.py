@@ -25,7 +25,12 @@ def ner_labels():
 
 @app.route('/ner/tagger/<id>')
 def ner_annotator(id):
-    return render_template('ner_annotator.html', id=id)
+    total_examples = len(app.config["TEXT_DATA"])
+    if int(id)<0 or int(id)>total_examples-1:
+        html = "OOR.html"
+    else:
+        html = 'ner_annotator.html'
+    return render_template(html, id=id, examples=total_examples)
 
 
 

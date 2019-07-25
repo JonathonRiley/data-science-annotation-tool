@@ -85,7 +85,7 @@
 
 </head>
 
-<body onload="initialise()">
+<body onload="initialise({{id}})">
 <nav class="navbar has-shadow" style="background-color:red">
     <div class="container">
         <div class="navbar-brand">
@@ -95,12 +95,13 @@
         </div>
         <div class="navbar-brand" style="margin-left:20%">
             <div class="navbar-item">
-                <p>Completed: {{id|int+1}} out of {{items}}</p>
+                <p>Completed: {{id|int+1}} out of {{examples}}</p>
             </div>
         </div>
         <div class="navbar-menu">
             <div class="navbar-end">
-                <button class='button' onclick="window.location.replace('/')" style="margin-top: 5px">home</button>
+                <button class='button' onclick="window.location.replace('/')" style="margin-top: 5px">Home</button>
+                <button class='button' onclick="window.location.replace('/ner/labels')" style="margin-top: 5px">Update Labels</button>
             </div>
     </div>
 </nav>
@@ -112,7 +113,7 @@
     <div class="row">
         <div class="box_title">Text</div>
         <div class="contentcolumn">
-            {{text}}
+            <p id="text"></p>
         </div>
         <div class="box_title">Entities</div>
         <div class="contentcolumn">
@@ -128,7 +129,8 @@
     </div>
 </div>
 
-
+<p id="test"></p>
+<p id="test2"></p>
 
 <script src="/static/js/ner_annotator.js"></script>
 </body>
