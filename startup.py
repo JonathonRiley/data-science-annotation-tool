@@ -1,6 +1,8 @@
 import re
+import json
 import argparse
 import logging
+import os.path
 from os import walk
 from flask import Flask, redirect, url_for, request
 from flask import render_template
@@ -12,10 +14,10 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 logger = logging.getLogger(__name__)
 logger.setLevel("DEBUG")
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/home', methods=['GET', 'POST'])
+@app.route('/')
+@app.route('/home')
 def homepage():
-    return render_template('homepage.html')
+    return render_template('homepage.html', output=app.config["OUT"])
 
 @app.route('/ner/labels')
 def ner_labels():
@@ -24,13 +26,70 @@ def ner_labels():
     return render_template('labels.html', entities=entities)
 
 @app.route('/ner/tagger/<id>')
-def ner_annotator(id):
+def tagger(id):
     total_examples = len(app.config["TEXT_DATA"])
     if int(id)<0 or int(id)>total_examples-1:
         html = "OOR.html"
     else:
         html = 'ner_annotator.html'
     return render_template(html, id=id, examples=total_examples)
+
+@app.route('/ner/prev/<id>/<entities>')
+def prev(id, entities):
+    if args.out is None:
+        output_dir = "out.json"
+    else:
+        output_dir = args.out + ".json"
+    if os.path.isfile(output_dir):
+        with open(output_dir, 'r') as data_file:
+            data = [json.loads(row) for row in data_file][0]
+    else:
+        text_data = app.config["TEXT_DATA"]
+        data = [{"content":text, "entities":[]} for text in text_data]
+
+    data[int(id)+1]['entities'] = entities
+
+    with open(output_dir, 'w') as data_file:
+        data_file.write(json.dumps(data))
+    return redirect(url_for('tagger',id=id))
+
+@app.route('/ner/next/<id>/<entities>')
+def next(id, entities):
+    if args.out is None:
+        output_dir = "out.json"
+    else:
+        output_dir = args.out + ".json"
+    if os.path.isfile(output_dir):
+        with open(output_dir, 'r') as data_file:
+            data = [json.loads(row) for row in data_file][0]
+    else:
+        text_data = app.config["TEXT_DATA"]
+        data = [{"content":text, "entities":[]} for text in text_data]
+
+    data[int(id)-1]['entities'] = entities
+
+    with open(output_dir, 'w') as data_file:
+        data_file.write(json.dumps(data))
+    return redirect(url_for('tagger',id=id))
+
+@app.route('/ner/finish/<id>/<entities>')
+def finish(id, entities):
+    if args.out is None:
+        output_dir = "out.json"
+    else:
+        output_dir = args.out + ".json"
+    if os.path.isfile(output_dir):
+        with open(output_dir, 'r') as data_file:
+            data = [json.loads(row) for row in data_file][0]
+    else:
+        text_data = app.config["TEXT_DATA"]
+        data = [{"content":text, "entities":[]} for text in text_data]
+
+    data[int(id)-1]['entities'] = entities
+
+    with open(output_dir, 'w') as data_file:
+        data_file.write(json.dumps(data))
+    return redirect(url_for('homepage'))
 
 
 
@@ -67,7 +126,7 @@ if __name__ == "__main__":
     app.config["HEAD"] = 0
 
     if args.out is None:
-        app.config["OUT"] = "out.csv"
+        app.config["OUT"] = "out"
     else:
         app.config["OUT"] = args.out
 
