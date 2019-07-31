@@ -11,6 +11,8 @@ function setGlobalIds(){
     var splitUrl = url.split('/');
     sessionStorage.setItem('id', Number(splitUrl[5]));
     sessionStorage.setItem("textIndex", 0);
+    var content = JSON.parse(sessionStorage.getItem('textEntities'))[Number(splitUrl[5])]['content']
+    sessionStorage.setItem("remainingContent", content.toString())
 }
 
 function generateLabels(){
@@ -34,18 +36,20 @@ function addToEntity(label){
         var id = sessionStorage.getItem("id")
         var textIndex = sessionStorage.getItem("textIndex");
         var entities = JSON.parse(sessionStorage.getItem("textEntities"));
-        var content = entities[Number(id)]["content"];
-        var start = content.indexOf(selection,textIndex);
+        var remainingContent = sessionStorage.getItem("remainingContent");
+        var start = remainingContent.indexOf(selection,textIndex);
         if (start = -1){
-            start = content.indexOf(selection,0)
+            start = remainingContent.indexOf(selection,0)
         };
         var end = start + selection.toString().length;
+        remainingContent = remainingContent.substring(0,start) + ' '.repeat(end-start) + remainingContent.substring(end,remainingContent.length)
         sessionStorage.setItem("textIndex", end);
         entities[Number(id)]["entities"].push([start, end, label]);
 
         labelsRaw[label]["counts"] += 1;
         sessionStorage.setItem("globalLabels", JSON.stringify(labelsRaw));
         sessionStorage.setItem("textEntities", JSON.stringify(entities));
+        sessionStorage.setItem("remainingContent", remainingContent);
 
         generateLabels();
         var labelsRaw = generateLabels();
@@ -105,10 +109,14 @@ function removeEntity(entity){
             }
         };
 
+    var remainingContent = sessionStorage.getItem("remainingContent");
+    var content = entities[Number(id)]['content'];
+    remainingContent = remainingContent.substring(0,entity[0]) + content.substring(entity[0], entity[1]) + remainingContent.substring(entity[1],remainingContent.length);
     entities[Number(id)]['entities'] = remainingEntities;
     labelsRaw[label]["counts"] -= 1;
     sessionStorage.setItem('textEntities', JSON.stringify(entities));
     sessionStorage.setItem("globalLabels", JSON.stringify(labelsRaw));
+    sessionStorage.setItem("remainingContent", remainingContent);
 
     document.getElementById("entities").innerHTML = JSON.stringify(entities);
 

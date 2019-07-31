@@ -47,11 +47,11 @@ def prev(id, entities):
         text_data = app.config["TEXT_DATA"]
         data = [{"content":text, "entities":[]} for text in text_data]
 
-    data[int(id)+1]['entities'] = entities
+    data[int(id)+1]['entities'] = json.loads(entities)
 
     with open(output_dir, 'w') as data_file:
         data_file.write(json.dumps(data))
-    return redirect(url_for('tagger',id=id))
+    return redirect(url_for('tagger', id=id))
 
 @app.route('/ner/next/<id>/<entities>')
 def next(id, entities):
