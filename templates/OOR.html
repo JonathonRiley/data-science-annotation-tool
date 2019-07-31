@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+body {
+  margin: 0;
+  min-width: 250px;
+}
+
+/* Include the padding and border in an element's total width and height */
+* {
+  box-sizing: border-box;
+}
+
+/* Style the header */
+.header {
+  background-color: #f44336;
+  padding: 30px 40px;
+  color: white;
+  text-align: center;
+}
+
+/* Clear floats after the header */
+.header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+</style>
+</head>
+<body onload="initialise({{entities}});">
+
+<div id="myDIV" class="header">
+    <h1 style="margin:5px">Oops..</h1>
+    <h4 style="margin:5px">Looks like  you went too far! </h4>
+    <button class='button' onclick="window.location.replace('/ner/tagger/0')" style="margin-top: 5px">Back to Beginning</button>
+    <button class='button' onclick="window.location.replace('/')" style="margin-top: 5px">Finish</button>
+</div>
+<div align="center">
+    <iframe src="https://giphy.com/embed/QLXPK5HFpzCjS" width="480" height="480" frameBorder="0" allowFullScreen style="display:block; margin-top:5%; border:1px solid black;"></iframe>
+</div>
+
+<p id="test"></p>
+<script src="/static/js/oor.js"> </script>
+
+</body>
+</html>
