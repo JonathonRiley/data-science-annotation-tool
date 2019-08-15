@@ -18,7 +18,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 
 <!-- Sidebar (hidden by default) -->
 <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
-    <a href="#sentiment" onclick="window.location.replace('/sentiment/labels')" class="w3-bar-item w3-button">Sentiment Analysis</a>
+    <a href="#sentiment" onclick="sessionStorage.setItem('globalLabels','');window.location.replace('/sentiment/labels')" class="w3-bar-item w3-button">Sentiment Analysis</a>
     <a href="#topics" onclick="window.location.replace('/text_class/labels')" class="w3-bar-item w3-button">Sentence Topic Classification</a>
     <a href="#ner" onclick="window.location.replace('/ner/labels')" class="w3-bar-item w3-button">Named Entity Recognition</a>
     <a href="#classifier" onclick="window.location.replace('/image_class/labels')" class="w3-bar-item w3-button">Image Classifier</a>
@@ -42,8 +42,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     <!-- First Photo Grid-->
     <div class="w3-row-padding w3-padding-16 w3-center" id="text">
         <div class="w3-third">
-            <img src="static/sentiment.jpg" alt="Sentiment" style="height:100pt" onclick="window.location.replace('/sentiment/labels')">
-            <h3><a class='btn btn-link' href='/sentiment/labels'>Sentiment Analysis</a></h3>
+            <img src="static/sentiment.jpg" alt="Sentiment" style="height:100pt" onclick="sessionStorage.setItem('globalLabels','');window.location.replace('/sentiment/labels')">
+            <h3><a class='btn btn-link' onclick="sessionStorage.setItem('globalLabels','')" href='/sentiment/labels'>Sentiment Analysis</a></h3>
             <p>Classify text as positive or negative.</p>
         </div>
         <div class="w3-third">

@@ -4,9 +4,7 @@ import argparse
 import logging
 import os.path
 from os import walk
-from flask import Flask, redirect, url_for, request
-from flask import render_template
-from flask import send_file
+from flask import Flask, redirect, url_for, render_template
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -19,23 +17,24 @@ logger.setLevel("DEBUG")
 def homepage():
     return render_template('homepage.html', output=app.config["OUT"])
 
-@app.route('/ner/labels')
-def ner_labels():
-    text_data = app.config["TEXT_DATA"]
-    entities = [{"content":text, "entities":[]} for text in text_data]
-    return render_template('labels.html', entities=entities)
 
-@app.route('/ner/tagger/<id>')
-def tagger(id):
+@app.route('/sentiment/labels')
+def sentiment_labels():
+    text_data = app.config["TEXT_DATA"]
+    sentiments = [{"content":text, "sentiment":''} for text in text_data]
+    return render_template('sentiment_labels.html', sentiments=sentiments)
+
+@app.route('/sentiment/tagger/<id>')
+def sentiment_tagger(id):
     total_examples = len(app.config["TEXT_DATA"])
     if int(id)<0 or int(id)>total_examples-1:
         html = "OOR.html"
     else:
-        html = 'ner_annotator.html'
+        html = 'sentiment_annotator.html'
     return render_template(html, id=id, examples=total_examples)
 
-@app.route('/ner/prev/<id>/<entities>')
-def prev(id, entities):
+@app.route('/sentiment/prev/<id>/<entities>')
+def sentiment_prev(id, entities):
     if args.out is None:
         output_dir = "out.json"
     else:
@@ -51,10 +50,10 @@ def prev(id, entities):
 
     with open(output_dir, 'w') as data_file:
         data_file.write(json.dumps(data))
-    return redirect(url_for('tagger', id=id))
+    return redirect(url_for('sentiment_tagger', id=id))
 
-@app.route('/ner/next/<id>/<entities>')
-def next(id, entities):
+@app.route('/sentiment/next/<id>/<entities>')
+def sentiment_next(id, entities):
     if args.out is None:
         output_dir = "out.json"
     else:
@@ -70,10 +69,10 @@ def next(id, entities):
 
     with open(output_dir, 'w') as data_file:
         data_file.write(json.dumps(data))
-    return redirect(url_for('tagger',id=id))
+    return redirect(url_for('sentiment_tagger',id=id))
 
-@app.route('/ner/finish/<id>/<entities>')
-def finish(id, entities):
+@app.route('/sentiment/finish/<id>/<entities>')
+def sentiment_finish(id, entities):
     if args.out is None:
         output_dir = "out.json"
     else:
@@ -90,6 +89,87 @@ def finish(id, entities):
     with open(output_dir, 'w') as data_file:
         data_file.write(json.dumps(data))
     return redirect(url_for('homepage'))
+
+
+
+
+
+
+
+
+@app.route('/ner/labels')
+def ner_labels():
+    text_data = app.config["TEXT_DATA"]
+    entities = [{"content":text, "entities":[]} for text in text_data]
+    return render_template('ner_labels.html', entities=entities)
+
+@app.route('/ner/tagger/<id>')
+def ner_tagger(id):
+    total_examples = len(app.config["TEXT_DATA"])
+    if int(id)<0 or int(id)>total_examples-1:
+        html = "OOR.html"
+    else:
+        html = 'ner_annotator.html'
+    return render_template(html, id=id, examples=total_examples)
+
+@app.route('/ner/prev/<id>/<entities>')
+def ner_prev(id, entities):
+    if args.out is None:
+        output_dir = "out.json"
+    else:
+        output_dir = args.out + ".json"
+    if os.path.isfile(output_dir):
+        with open(output_dir, 'r') as data_file:
+            data = [json.loads(row) for row in data_file][0]
+    else:
+        text_data = app.config["TEXT_DATA"]
+        data = [{"content":text, "entities":[]} for text in text_data]
+
+    data[int(id)+1]['entities'] = json.loads(entities)
+
+    with open(output_dir, 'w') as data_file:
+        data_file.write(json.dumps(data))
+    return redirect(url_for('ner_tagger', id=id))
+
+@app.route('/ner/next/<id>/<entities>')
+def ner_next(id, entities):
+    if args.out is None:
+        output_dir = "out.json"
+    else:
+        output_dir = args.out + ".json"
+    if os.path.isfile(output_dir):
+        with open(output_dir, 'r') as data_file:
+            data = [json.loads(row) for row in data_file][0]
+    else:
+        text_data = app.config["TEXT_DATA"]
+        data = [{"content":text, "entities":[]} for text in text_data]
+
+    data[int(id)-1]['entities'] = entities
+
+    with open(output_dir, 'w') as data_file:
+        data_file.write(json.dumps(data))
+    return redirect(url_for('ner_tagger',id=id))
+
+@app.route('/ner/finish/<id>/<entities>')
+def ner_finish(id, entities):
+    if args.out is None:
+        output_dir = "out.json"
+    else:
+        output_dir = args.out + ".json"
+    if os.path.isfile(output_dir):
+        with open(output_dir, 'r') as data_file:
+            data = [json.loads(row) for row in data_file][0]
+    else:
+        text_data = app.config["TEXT_DATA"]
+        data = [{"content":text, "entities":[]} for text in text_data]
+
+    data[int(id)-1]['entities'] = entities
+
+    with open(output_dir, 'w') as data_file:
+        data_file.write(json.dumps(data))
+    return redirect(url_for('homepage'))
+
+
 
 
 

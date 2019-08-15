@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-125643874-2');
+  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+    .w3-bar-block .w3-bar-item {padding:20px}
+    * {
+      box-sizing: border-box;
+      margin: 10;
+      padding: 10;
+    }
+    .labelcolumn {
+      width: 80%;
+      padding: 10px;
+      height: 150px;
+      margin-left: 10%;
+      margin-top: 10px;
+      font-size:20px;
+      background-color:#f2f2f2;
+      border-style:solid;
+      border-color:#000000;
+    }
+
+    .box_title {
+      position: relative;
+      top: 15px;
+      left: -33%;
+      font-size: 20px;
+    }
+
+    .progression {
+      float: left;
+      width: 80%;
+      margin-left: 10%;
+      padding-left: 10px;
+      margin-top: 15px;
+      height: 100px;
+      font-size: 14px;
+      overflow-y: auto;
+    }
+
+    .contentcolumn {
+      color:#000000;
+      float: left;
+      width: 80%;
+      margin-left: 10%;
+      padding-left: 10px;
+      margin-top: 5px;
+      height: 220px;
+      border: 3px solid;
+      background-color:#f2f2f2;
+      border-style:solid;
+      border-color:#000000;
+      font-size: 16px;
+      overflow-y: auto;
+    }
+    .class:hover{
+      cursor:pointer;
+    }
+
+
+    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sentiment Analysis Annotation Tool</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/css/swiper.min.css">
+    <!-- favicon settings -->
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://unpkg.com/marked@0.3.6/lib/marked.js"></script>
+    <script src="https://unpkg.com/lodash@4.16.0/lodash.js"></script>
+
+</head>
+
+<body onload="initialise({{id}})">
+<nav class="navbar has-shadow" style="background-color:red">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <b>Sentiment Analysis Annotation Tool</b>
+            </a>
+        </div>
+        <div class="navbar-brand" style="margin-left:20%">
+            <div class="navbar-item">
+                <p>Completed: {{id|int+1}} out of {{examples}}</p>
+            </div>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <button class='button' onclick="window.location.replace('/')" style="margin-top: 5px">Home</button>
+                <button class='button' onclick="window.location.replace('/sentiment/labels')" style="margin-top: 5px">Update Labels</button>
+            </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="labelcolumn">
+        <center>Labels - counts
+            <p id="labels"></p>
+                <div id="progression" class="progression">
+                    <div >
+                        <button class='button' onclick="window.location.replace(prevPage())" style="margin-top: 5px">Previous</button>
+                        <button class='button' onclick="window.location.replace(finishPage())" style="margin-top: 5px; margin-left: 10px"">Finish</button>
+                        <button class='button' onclick="window.location.replace(nextPage())" style="margin-top: 5px; margin-left: 10px"">Next</button>
+                    </div>
+                </div>
+        </center>
+    </div>
+</div>
+
+<div class="box_title">Text</div>
+<div class="contentcolumn">
+    <p id="text"></p>
+</div>
+
+
+
+
+<p id="test"></p>
+<p id="test2"></p>
+
+<script src="/static/js/sentiment_annotator.js"></script>
+</body>
+</html>
